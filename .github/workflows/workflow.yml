@@ -27,11 +27,11 @@ jobs:
       - name: Rebuild app if no cache
         if: ${{ steps.cache-njs.outputs.cache-hit != 'true' }}
         run: npm run build
-      - name: Save build as artifact
-        uses: actions/upload-artifact@v4
-        with:
-          name: build
-          path: dist
+      # - name: Save build as artifact
+      #   uses: actions/upload-artifact@v4
+      #   with:
+      #     name: build
+      #     path: dist
           
   test:
     runs-on: ubuntu-latest
@@ -45,16 +45,16 @@ jobs:
 
       - name: Install dependencies
         run: npm ci
-      - name: Check artifact
-        id: check-artifact
-        uses: LIT-Protocol/artifact-exists-action@v0
-        with:
-          name: 'artifact'
-      - name: Download artifact if exists
-        if: ${{ steps.check-artifact.outputs.exists == 'true' }}
-        uses: actions/download-artifact@v4
+      # - name: Check artifact
+      #   id: check-artifact
+      #   uses: LIT-Protocol/artifact-exists-action@v0
+      #   with:
+      #     name: build
+      # - name: Download artifact if exists
+      #   if: ${{ steps.check-artifact.outputs.exists == 'true' }}
+      #   uses: actions/download-artifact@v4
       - name: Restore cache if no artifact
-        if: ${{ steps.check-artifact.outputs.exists == 'false' }}
+        # if: ${{ steps.check-artifact.outputs.exists == 'false' }}
         uses: actions/cache/restore@v4
         with:
           path: |
