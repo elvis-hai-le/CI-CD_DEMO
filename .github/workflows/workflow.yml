@@ -1,0 +1,89 @@
+name: CI/CD Pipeline Demo for NextJS to AWS
+on:
+  push:
+    branches: [ main ]
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:      
+      - uses: actions/checkout@v4
+      - name: Set up Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20.x'
+      - name: Cache nextjs build
+        id: cache-njs
+        uses: actions/cache@v4
+        with:
+          path: |
+            ~/.npm
+            ${{ github.workspace }}/.next/cache
+          key: ${{ runner.os }}-nextjs-${{ hashFiles('**/package-lock.json') }}-${{ hashFiles('**/*.js', '**/*.jsx', '**/*.ts', '**/*.tsx') }}
+          restore-keys: |
+            ${{ runner.os }}-nextjs-${{ hashFiles('**/package-lock.json') }}-
+      - name: Install dependencies
+        run: npm ci
+      - name: Rebuild app if no cache
+        if: ${{ steps.cache-njs.outputs.cache-hit != 'true' }}
+        run: npm run build
+      - name: Save build as artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: build
+          path: dist
+          
+  test:
+    runs-on: ubuntu-latest
+    needs: [build]
+    steps:      
+      - uses: actions/checkout@v4
+      - name: Set up Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20.x'
+
+      - name: Install dependencies
+        run: npm install
+      - name: Check artifact
+        id: check-artifact
+        uses: LIT-Protocol/artifact-exists-action@v0
+        with:
+          name: 'artifact'
+      - name: Download artifact if exists
+        if: ${{ steps.check-artifact.outputs.exists == 'true' }}
+        uses: actions/download-artifact@v4
+      - name: Restore cache if no artifact
+        if: ${{ steps.check-artifact.outputs.exists == 'false' }}
+        uses: actions/cache/restore@v4
+        with:
+          path: |
+            ~/.npm
+            ${{ github.workspace }}/.next/cache
+          key: ${{ runner.os }}-nextjs-${{ hashFiles('**/package-lock.json') }}-${{ hashFiles('**/*.js', '**/*.jsx', '**/*.ts', '**/*.tsx') }}
+          restore-keys: |
+            ${{ runner.os }}-nextjs-${{ hashFiles('**/package-lock.json') }}-      
+        # - name: Run unit Test
+        #   run: npm test
+        # run unit tests
+
+  deploy:
+    runs-on: ubuntu-latest
+    needs: [test]
+    if: github.ref == 'refs/heads/main'
+    steps:    
+      - name: Configure AWS credentials
+        uses: aws-actions/configure-aws-credentials@v4
+        with:
+          aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+          aws-region: ap-southeast-2
+
+      - name: Create CodeDeploy Deployment
+        id: deploy
+        run: |
+          aws deploy create-deployment \
+            --application-name testsnake \
+            --deployment-group-name snakejs \
+            --deployment-config-name CodeDeployDefault.OneAtATime \
+            --github-location repository=${{ github.repository }},commitId=${{ github.sha }}
