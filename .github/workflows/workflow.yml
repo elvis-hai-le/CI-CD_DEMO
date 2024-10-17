@@ -27,12 +27,6 @@ jobs:
       - name: Rebuild app if no cache
         if: ${{ steps.cache-njs.outputs.cache-hit != 'true' }}
         run: npm run build
-      # - name: Save build as artifact
-      #   uses: actions/upload-artifact@v4
-      #   with:
-      #     name: build
-      #     path: dist
-          
   test:
     runs-on: ubuntu-latest
     needs: [build]
@@ -45,16 +39,7 @@ jobs:
 
       - name: Install dependencies
         run: npm ci
-      # - name: Check artifact
-      #   id: check-artifact
-      #   uses: LIT-Protocol/artifact-exists-action@v0
-      #   with:
-      #     name: build
-      # - name: Download artifact if exists
-      #   if: ${{ steps.check-artifact.outputs.exists == 'true' }}
-      #   uses: actions/download-artifact@v4
-      - name: Restore cache if no artifact
-        # if: ${{ steps.check-artifact.outputs.exists == 'false' }}
+      - name: Restore cache
         uses: actions/cache/restore@v4
         with:
           path: |
@@ -83,7 +68,7 @@ jobs:
         id: deploy
         run: |
           aws deploy create-deployment \
-            --application-name testsnake \
-            --deployment-group-name snakejs \
+            --application-name Snake_Prod \
+            --deployment-group-name Production \
             --deployment-config-name CodeDeployDefault.OneAtATime \
             --github-location repository=${{ github.repository }},commitId=${{ github.sha }}
