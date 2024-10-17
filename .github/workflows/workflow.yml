@@ -44,7 +44,7 @@ jobs:
           node-version: '20.x'
 
       - name: Install dependencies
-        run: npm install
+        run: npm ci
       - name: Check artifact
         id: check-artifact
         uses: LIT-Protocol/artifact-exists-action@v0
