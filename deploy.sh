@@ -1,4 +1,5 @@
 #!/bin/bash
+echo $PATH
 export PATH=$PATH:/usr/local/bin
 cd /home/ubuntu/CI-CD_DEMO/
 git pull origin main
