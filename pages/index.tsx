@@ -23,7 +23,7 @@ export default function SnakeGame() {
 
   // Game Settings
   const minGameSpeed = 10
-  const maxGameSpeed = 20
+  const maxGameSpeed = 30
   const wallKills = false
 
   // Game State
