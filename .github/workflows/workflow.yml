@@ -8,10 +8,12 @@ jobs:
     runs-on: ubuntu-latest
     steps:      
       - uses: actions/checkout@v4
+
       - name: Set up Node
         uses: actions/setup-node@v4
         with:
           node-version: '20.x'
+
       - name: Cache nextjs build
         id: cache-njs
         uses: actions/cache@v4
@@ -22,24 +24,20 @@ jobs:
           key: ${{ runner.os }}-nextjs-${{ hashFiles('**/package-lock.json') }}-${{ hashFiles('**/*.js', '**/*.jsx', '**/*.ts', '**/*.tsx') }}
           restore-keys: |
             ${{ runner.os }}-nextjs-${{ hashFiles('**/package-lock.json') }}-
+
       - name: Install dependencies
         run: npm ci
+
+      - name: Rebuild app if no cache
+        if: ${{ steps.cache-njs.outputs.cache-hit != 'true' }}
+        run: npm run build
+
       - name: Build app
         run: npm run build
+
       - name: Run unit tests
         run: npm test
-      # - name: Rebuild app if no cache
-      #   id: rebuild
-      #   if: ${{ steps.cache-njs.outputs.cache-hit != 'true' }}
-      #   run: npm run build
-      # - name: Save new build to cache
-      #   if: steps.rebuild.outcome == 'success'
-      #   uses: actions/cache/save@v4
-      #   with:
-      #     path: |
-      #       ~/.npm
-      #       ${{ github.workspace }}/.next/cache
-      #     key: ${{ runner.os }}-nextjs-${{ hashFiles('**/package-lock.json') }}-${{ hashFiles('**/*.js', '**/*.jsx', '**/*.ts', '**/*.tsx') }}
+      
   deploy-staging:
     runs-on: ubuntu-latest
     needs: [build-and-test]
@@ -60,6 +58,7 @@ jobs:
             --deployment-group-name Staging \
             --deployment-config-name CodeDeployDefault.OneAtATime \
             --github-location repository=${{ github.repository }},commitId=${{ github.sha }}
+            
   deploy-production:
     runs-on: ubuntu-latest
     needs: [build-and-test]
