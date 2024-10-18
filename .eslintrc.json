@@ -15,5 +15,8 @@
     "prettier/prettier": "error",
     "import/no-anonymous-default-export": "off",
     "react/display-name": "off"
+  },
+  "env": {
+    "jest": true
   }
 }
