@@ -3,5 +3,5 @@ os: linux
 hooks:
   ApplicationStart:
     - location: deploy.sh
-      timeout: 300
+      timeout: 150
       runas: ubuntu
