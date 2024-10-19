@@ -93,15 +93,15 @@ export default function SnakeGame() {
     setCountDown(4)
   }
 
-  const fillRect = (
-    ctx: CanvasRenderingContext2D,
-    x: number,
-    y: number,
-    w: number,
-    h: number
-  ) => {
-    ctx.fillRect(x, y, w, h)
-  }
+  // const fillRect = (
+  //   ctx: CanvasRenderingContext2D,
+  //   x: number,
+  //   y: number,
+  //   w: number,
+  //   h: number
+  // ) => {
+  //   ctx.fillRect(x, y, w, h)
+  // }
 
   const fillText = (
     ctx: CanvasRenderingContext2D,
