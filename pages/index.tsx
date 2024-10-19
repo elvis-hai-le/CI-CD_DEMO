@@ -113,16 +113,16 @@ export default function SnakeGame() {
     ctx.fillText(text, x, y, w)
   }
 
-  const strokeRect = (
-    ctx: CanvasRenderingContext2D,
-    x: number,
-    y: number,
-    w: number,
-    h: number
-  ) => {
-    ctx.lineWidth = 10
-    ctx.strokeRect(x + 0.5, y + 0.5, w, h)
-  }
+  // const strokeRect = (
+  //   ctx: CanvasRenderingContext2D,
+  //   x: number,
+  //   y: number,
+  //   w: number,
+  //   h: number
+  // ) => {
+  //   ctx.lineWidth = 10
+  //   ctx.strokeRect(x + 0.5, y + 0.5, w, h)
+  // }
 
   const drawSnake = (ctx: CanvasRenderingContext2D) => {
     ctx.font = '30px serif'
