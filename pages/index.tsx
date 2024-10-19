@@ -23,8 +23,8 @@ export default function SnakeGame() {
 
   // Game Settings
   const minGameSpeed = 10
-  const maxGameSpeed = 20
-  const wallKills = false
+  const maxGameSpeed = 30
+  const wallKills = true
 
   // Game State
   const [gameDelay, setGameDelay] = useState<number>(1000 / minGameSpeed)
@@ -177,6 +177,7 @@ export default function SnakeGame() {
         canvasGridSize,
         canvasGridSize
       )
+      fillText
     }
   }
 
