@@ -32,9 +32,6 @@ jobs:
         if: ${{ steps.cache-njs.outputs.cache-hit != 'true' }}
         run: npm run build
 
-      - name: Build app
-        run: npm run build
-
       - name: Run unit tests
         run: npm test
       
