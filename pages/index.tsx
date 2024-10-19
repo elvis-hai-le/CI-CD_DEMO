@@ -103,6 +103,16 @@ export default function SnakeGame() {
     ctx.fillRect(x, y, w, h)
   }
 
+  const fillText = (
+    ctx: CanvasRenderingContext2D,
+    text: string,
+    x: number,
+    y: number,
+    w: number
+  ) => {
+    ctx.fillText(text, x, y, w)
+  }
+
   const strokeRect = (
     ctx: CanvasRenderingContext2D,
     x: number,
@@ -154,30 +164,36 @@ export default function SnakeGame() {
   }
 
   const drawApple = (ctx: CanvasRenderingContext2D) => {
-    ctx.fillStyle = '#fc052a' // '#38C172' // '#F4CA64'
-    ctx.strokeStyle = '#111111' // '#187741' // '#8C6D1F
+    // ctx.fillStyle = '#fc052a' // '#38C172' // '#F4CA64'
+    // ctx.strokeStyle = '#111111' // '#187741' // '#8C6D1F
 
     if (
       apple &&
       typeof apple.x !== 'undefined' &&
       typeof apple.y !== 'undefined'
     ) {
-      fillRect(
-        ctx,
-        apple.x * canvasGridSize,
-        apple.y * canvasGridSize,
-        canvasGridSize,
-        canvasGridSize
-      )
+      // fillRect(
+      //   ctx,
+      //   apple.x * canvasGridSize,
+      //   apple.y * canvasGridSize,
+      //   canvasGridSize,
+      //   canvasGridSize
+      // )
 
-      strokeRect(
+      // strokeRect(
+      //   ctx,
+      //   apple.x * canvasGridSize,
+      //   apple.y * canvasGridSize,
+      //   canvasGridSize,
+      //   canvasGridSize
+      // )
+      fillText(
         ctx,
+        'U+1F34E',
         apple.x * canvasGridSize,
         apple.y * canvasGridSize,
-        canvasGridSize,
         canvasGridSize
       )
-      
     }
   }
 

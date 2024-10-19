@@ -2,7 +2,7 @@ import Head from 'next/head'
 
 export const HeadComponent = () => (
   <Head>
-    <title>Snake | Built by Marc Müller</title>
+    <title>Snake pipeline demo</title>
     <meta name="viewport" content="initial-scale=1.0, width=device-width" />
     <meta name="author" content="Marc Müller" />
     <meta
