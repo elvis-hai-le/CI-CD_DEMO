@@ -125,39 +125,55 @@ export default function SnakeGame() {
   }
 
   const drawSnake = (ctx: CanvasRenderingContext2D) => {
-    ctx.fillStyle = '#50ea3f'
-    ctx.strokeStyle = '#111111'
+    ctx.font = '30px serif'
+    // ctx.fillStyle = '#50ea3f'
+    // ctx.strokeStyle = '#111111'
 
-    fillRect(
-      ctx,
-      snake.head.x * canvasGridSize,
-      snake.head.y * canvasGridSize,
-      canvasGridSize,
-      canvasGridSize
-    )
+    // fillRect(
+    //   ctx,
+    //   snake.head.x * canvasGridSize,
+    //   snake.head.y * canvasGridSize,
+    //   canvasGridSize,
+    //   canvasGridSize
+    // )
 
-    strokeRect(
+    // strokeRect(
+    //   ctx,
+    //   snake.head.x * canvasGridSize,
+    //   snake.head.y * canvasGridSize,
+    //   canvasGridSize,
+    //   canvasGridSize
+    // )
+
+    fillText(
       ctx,
+      '🐰',
       snake.head.x * canvasGridSize,
-      snake.head.y * canvasGridSize,
-      canvasGridSize,
+      snake.head.y * canvasGridSize + 30,
       canvasGridSize
     )
 
     snake.trail.forEach((snakePart) => {
-      fillRect(
-        ctx,
-        snakePart.x * canvasGridSize,
-        snakePart.y * canvasGridSize,
-        canvasGridSize,
-        canvasGridSize
-      )
+      // fillRect(
+      //   ctx,
+      //   snakePart.x * canvasGridSize,
+      //   snakePart.y * canvasGridSize,
+      //   canvasGridSize,
+      //   canvasGridSize
+      // )
 
-      strokeRect(
+      // strokeRect(
+      //   ctx,
+      //   snakePart.x * canvasGridSize,
+      //   snakePart.y * canvasGridSize,
+      //   canvasGridSize,
+      //   canvasGridSize
+      // )
+      fillText(
         ctx,
+        '🐇',
         snakePart.x * canvasGridSize,
-        snakePart.y * canvasGridSize,
-        canvasGridSize,
+        snakePart.y * canvasGridSize + 30,
         canvasGridSize
       )
     })
@@ -166,6 +182,7 @@ export default function SnakeGame() {
   const drawApple = (ctx: CanvasRenderingContext2D) => {
     // ctx.fillStyle = '#fc052a' // '#38C172' // '#F4CA64'
     // ctx.strokeStyle = '#111111' // '#187741' // '#8C6D1F
+    ctx.font = '30px serif'
 
     if (
       apple &&
@@ -189,9 +206,9 @@ export default function SnakeGame() {
       // )
       fillText(
         ctx,
-        'U+1F34E',
+        '🥕',
         apple.x * canvasGridSize,
-        apple.y * canvasGridSize,
+        apple.y * canvasGridSize + 30,
         canvasGridSize
       )
     }
