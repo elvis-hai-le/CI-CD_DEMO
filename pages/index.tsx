@@ -177,7 +177,7 @@ export default function SnakeGame() {
         canvasGridSize,
         canvasGridSize
       )
-      fillText
+      
     }
   }
 
