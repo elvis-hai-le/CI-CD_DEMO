@@ -29,7 +29,7 @@ export default function SnakeGame() {
   // Game Settings
   const minGameSpeed = 10
   const maxGameSpeed = 30
-  const wallKills = false
+  const wallKills = true
 
   // Game State
   const [gameDelay, setGameDelay] = useState<number>(1000 / minGameSpeed)
