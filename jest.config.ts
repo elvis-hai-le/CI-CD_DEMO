@@ -3,7 +3,7 @@
  * https://jestjs.io/docs/configuration
  */
 
-import type {Config} from 'jest'
+import type { Config } from 'jest'
 import nextJest from 'next/jest.js'
 
 const createJestConfig = nextJest({
@@ -12,17 +12,15 @@ const createJestConfig = nextJest({
 })
 
 const config: Config = {
-
   // Automatically clear mock calls, instances, contexts and results before every test
   clearMocks: true,
 
   // Indicates which provider should be used to instrument code for coverage
-  coverageProvider: "v8",
+  coverageProvider: 'v8',
 
   testEnvironment: 'jsdom',
 
-  setupFilesAfterEnv: ['<rootDir>/jest.setup.js']
+  setupFilesAfterEnv: ['<rootDir>/jest.setup.js'],
+}
 
-};
-
-export default createJestConfig(config);
+export default createJestConfig(config)

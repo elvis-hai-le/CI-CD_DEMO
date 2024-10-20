@@ -108,6 +108,25 @@ export default function SnakeGame() {
     ctx.fillText(text, x, y, w)
   }
 
+  const drawTree = useCallback(
+    (ctx: CanvasRenderingContext2D) => {
+      ctx.font = '40px serif'
+      ctx.fillStyle = 'rgba(255, 255, 255, 0.2)'
+      for (let x = 0; x < 18; x++) {
+        for (let y = 0; y < 12; y++) {
+          fillText(
+            ctx,
+            '🌲',
+            x * canvasGridSize - 5,
+            y * canvasGridSize + 30,
+            70
+          )
+        }
+      }
+    },
+    [canvasGridSize]
+  )
+
   const drawSnake = useCallback(
     (ctx: CanvasRenderingContext2D) => {
       ctx.font = '30px serif'
@@ -133,7 +152,9 @@ export default function SnakeGame() {
 
   const drawApple = useCallback(
     (ctx: CanvasRenderingContext2D) => {
+      ctx.textAlign = 'left'
       ctx.font = '30px serif'
+      ctx.fillStyle = 'rgba(255, 255, 255, 1)'
       if (
         apple &&
         typeof apple.x !== 'undefined' &&
@@ -149,6 +170,24 @@ export default function SnakeGame() {
       }
     },
     [apple, canvasGridSize]
+  )
+
+  const drawScore = useCallback(
+    (ctx: CanvasRenderingContext2D) => {
+      ctx.textAlign = 'center'
+      ctx.font = '8em Agdasima'
+      ctx.fillStyle = 'rgba(239, 235, 213, 0.4)'
+      if (score) {
+        fillText(
+          ctx,
+          score.toString(),
+          canvasWidth / 2,
+          canvasHeight / 2 + 50,
+          150
+        )
+      }
+    },
+    [score]
   )
 
   // Update snake.head, snake.trail and apple positions. Check for collisions.
@@ -229,10 +268,12 @@ export default function SnakeGame() {
 
     if (ctx && !isLost) {
       clearCanvas(ctx)
+      drawTree(ctx)
+      drawScore(ctx)
       drawApple(ctx)
       drawSnake(ctx)
     }
-  }, [isLost, drawApple, drawSnake])
+  }, [isLost, drawApple, drawSnake, drawScore, drawTree])
 
   // Game Update Interval
   useInterval(
