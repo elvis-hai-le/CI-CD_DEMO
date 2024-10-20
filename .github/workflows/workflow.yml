@@ -6,7 +6,7 @@ on:
 env:
   reponame: CI-CD_DEMO
   codedeployname: Snake
-  environment: Staging
+  environment: production
   s3bucket: cicd-codeploy-bucket
 
 jobs:
