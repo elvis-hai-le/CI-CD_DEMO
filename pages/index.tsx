@@ -35,7 +35,7 @@ export default function SnakeGame() {
   const minGameSpeed = 10
   const maxGameSpeed = 30
   const wallKills = false
-  
+
   // Game State
   const [gameDelay, setGameDelay] = useState<number>(1000 / minGameSpeed)
   const [countDown, setCountDown] = useState<number>(4)
@@ -74,12 +74,12 @@ export default function SnakeGame() {
     return { x, y }
   }
 
-  const [penguin, setPenguin] = useState(false);
+  const [penguin, setPenguin] = useState(false)
   const swapTheme = () => {
-    setPenguin(penguin => !penguin)
+    setPenguin((penguin) => !penguin)
   }
   const swapClick = () => {
-    swapTheme();
+    swapTheme()
     // redraw(isLost, drawApple, drawSnake, drawTree);
   }
 
@@ -127,16 +127,14 @@ export default function SnakeGame() {
       ctx.font = '40px serif'
       ctx.fillStyle = 'rgba(255, 255, 255, 0.2)'
       let bg = ''
-       if (penguin) {bg='🌨️'} else {bg='🌲'}
+      if (penguin) {
+        bg = '🌨️'
+      } else {
+        bg = '🌲'
+      }
       for (let x = 0; x < 18; x++) {
         for (let y = 0; y < 12; y++) {
-          fillText(
-            ctx,
-            bg,
-            x * canvasGridSize - 5,
-            y * canvasGridSize + 30,
-            70
-          )
+          fillText(ctx, bg, x * canvasGridSize - 5, y * canvasGridSize + 30, 70)
         }
       }
     },
@@ -148,8 +146,16 @@ export default function SnakeGame() {
       ctx.font = '30px serif'
       let head = ''
       let tail = ''
-      if (penguin) {head='🐧'} else {head='🐰'}
-      if (penguin) {tail='🧊'} else {tail='🐇'}
+      if (penguin) {
+        head = '🐧'
+      } else {
+        head = '🐰'
+      }
+      if (penguin) {
+        tail = '🧊'
+      } else {
+        tail = '🐇'
+      }
       fillText(
         ctx,
         head,
@@ -176,7 +182,11 @@ export default function SnakeGame() {
       ctx.font = '30px serif'
       ctx.fillStyle = 'rgba(255, 255, 255, 1)'
       let item = ''
-      if (penguin) {item='❄️'} else {item='🥕'}
+      if (penguin) {
+        item = '❄️'
+      } else {
+        item = '🥕'
+      }
       if (
         apple &&
         typeof apple.x !== 'undefined' &&
@@ -280,11 +290,11 @@ export default function SnakeGame() {
 
   // const redraw = ({ isLost, drawApple, drawSnake, drawTree }) => {
   //   const canvasRef = useRef<HTMLCanvasElement | null>(null);
-  
+
   //   const clearCanvas = (ctx) => {
   //     ctx.clearRect(0, 0, ctx.canvas.width, ctx.canvas.height);
   //   };
-  
+
   //   const redraw = (ctx) => {
   //     if (ctx && !isLost) {
   //       clearCanvas(ctx);
@@ -293,23 +303,21 @@ export default function SnakeGame() {
   //       drawSnake(ctx);
   //     }
   //   };
-  
+
   //   const updateCanvas = () => {
   //     const canvas = canvasRef.current;
   //     const ctx = canvas?.getContext('2d');
   //     redraw(ctx); // Call the redraw function with the context
   //   };
-  
+
   //   useEffect(() => {
   //     updateCanvas(); // Call the function inside useEffect
   //   }, [isLost, drawApple, drawSnake, drawTree]);
-  
+
   //   return (
   //     <canvas ref={canvasRef}></canvas>
   //   );
   // };
-
-  
 
   // Game Update Interval
   useInterval(
@@ -424,7 +432,9 @@ export default function SnakeGame() {
           height={canvasHeight + 1}
           className={`${penguin ? 'bg-cyan-100' : 'bg-emerald-950'}`}
         />
-        <section className={`font-poppins flex flex-row ${penguin ? 'bg-cyan-600' : 'bg-green-900'} text-amber-50 pt-1`}>
+        <section
+          className={`font-poppins flex flex-row ${penguin ? 'bg-cyan-600' : 'bg-green-900'} text-amber-50 pt-1`}
+        >
           <div className="score basis-1/3">
             <p className="basis-1/3">
               <FontAwesomeIcon icon={['fas', 'star']} />
@@ -443,7 +453,9 @@ export default function SnakeGame() {
               {countDown === 4 ? 'Start Game' : countDown}
             </button>
           ) : (
-            <p className={`${penguin ? 'text-rose-300' : 'text-amber-500'} text-5xl basis-1/3 text-center`}>
+            <p
+              className={`${penguin ? 'text-rose-300' : 'text-amber-500'} text-5xl basis-1/3 text-center`}
+            >
               {score}
             </p>
           )}
@@ -474,8 +486,10 @@ export default function SnakeGame() {
           </div>
         )}
       </main>
-      <div className='flex place-content-center'>
-      <button onClick={swapClick} className='text-5xl'>{penguin ? '🐰' : '🐧'}</button>
+      <div className="flex place-content-center">
+        <button onClick={swapClick} className="text-5xl">
+          {penguin ? '🐰' : '🐧'}
+        </button>
       </div>
       <h1 className="text-sm text-rose-400 hover:text-rose-300 pt-10 transition duration-200 motion-safe:animate-bounce text-center pt-4 font-poppins">
         <Link href="/almost">⁉️ what&apos;s hiding here? ⁉️</Link>
