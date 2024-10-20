@@ -426,13 +426,7 @@ export default function SnakeGame() {
       <h1 className="text-sm text-rose-400 hover:text-rose-300 pt-10 transition duration-200 motion-safe:animate-bounce text-center pt-4 font-poppins">
         <Link href="/almost">⁉️ what&apos;s hiding here? ⁉️</Link>
       </h1>
-      <footer>
-        Copyright &copy; <a href="https://mueller.dev">Marc Müller</a> 2022
-        &nbsp;|&nbsp;{' '}
-        <a href="https://github.com/marcmll/next-snake">
-          <FontAwesomeIcon icon={['fab', 'github']} /> Github
-        </a>
-      </footer>
+      <footer></footer>
     </>
   )
 }
