@@ -8,7 +8,7 @@ export async function getStaticProps() {
 export default function Page() {
   return (
     <body className="flex-col space-y-20 bg-inherit">
-      <h1 className="text-9xl text-center">🧐</h1>
+      <h1 className="text-9xl text-center animate-spin">🧐</h1>
       <h1 className="text-4xl text-center text-green-800 font-poppins">
         {' '}
         👋 Hi! glad you could make it for tea 🍵

@@ -24,10 +24,6 @@ body {
   margin: 0.25em;
 }
 
-#subtitle {
-  font-size: medium;
-}
-
 main {
   background-color: #edf7f7;
   border-radius: 6px;
@@ -81,16 +77,14 @@ section {
 
 button {
   margin: 0;
-  padding: 8px 18px;
+  padding: 12px 18px;
   min-width: 120px;
   font-size: 16px;
   line-height: 21px;
   text-align: center;
   color: white;
-  background-color: #0170f3;
   border: none;
   border-radius: 4px;
-  box-shadow: 0 4px 12px rgba(1, 112, 243, 0.3);
   box-sizing: border-box;
   display: flex;
   justify-content: center;

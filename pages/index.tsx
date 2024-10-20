@@ -34,7 +34,7 @@ export default function SnakeGame() {
   // Game Settings
   const minGameSpeed = 10
   const maxGameSpeed = 30
-  const wallKills = true
+  const wallKills = false
 
   // Game State
   const [gameDelay, setGameDelay] = useState<number>(1000 / minGameSpeed)
@@ -116,7 +116,7 @@ export default function SnakeGame() {
   const drawTree = useCallback(
     (ctx: CanvasRenderingContext2D) => {
       ctx.font = '40px serif'
-      ctx.fillStyle = 'rgba(255, 255, 255, 0.2)'
+      ctx.fillStyle = 'rgba(255, 255, 255, 0.15)'
       for (let x = 0; x < 18; x++) {
         for (let y = 0; y < 12; y++) {
           fillText(
@@ -175,24 +175,6 @@ export default function SnakeGame() {
       }
     },
     [apple, canvasGridSize]
-  )
-
-  const drawScore = useCallback(
-    (ctx: CanvasRenderingContext2D) => {
-      ctx.textAlign = 'center'
-      ctx.font = '8em Agdasima'
-      ctx.fillStyle = 'rgba(239, 235, 213, 0.4)'
-      if (score) {
-        fillText(
-          ctx,
-          score.toString(),
-          canvasWidth / 2,
-          canvasHeight / 2 + 50,
-          150
-        )
-      }
-    },
-    [score]
   )
 
   // Update snake.head, snake.trail and apple positions. Check for collisions.
@@ -274,11 +256,10 @@ export default function SnakeGame() {
     if (ctx && !isLost) {
       clearCanvas(ctx)
       drawTree(ctx)
-      drawScore(ctx)
       drawApple(ctx)
       drawSnake(ctx)
     }
-  }, [isLost, drawApple, drawSnake, drawScore, drawTree])
+  }, [isLost, drawApple, drawSnake, drawTree])
 
   // Game Update Interval
   useInterval(
@@ -380,8 +361,10 @@ export default function SnakeGame() {
     <>
       <Head />
       <h1 className="title font-poppins">NextJS Snake Demo Deploy</h1>
-      <h1 className="title font-poppins" id="subtitle">
-        CREDITS TO MARC MULLER
+      <h1 className="font-poppins text-center text-base text-sky-300">
+        <a href="https://github.com/marcmll/next-snake">
+          👉 CREDITS TO MARC MULLER FOR ORIGINAL GAME 👈
+        </a>
       </h1>
       <br />
       <main>
@@ -390,9 +373,9 @@ export default function SnakeGame() {
           width={canvasWidth + 1}
           height={canvasHeight + 1}
         />
-        <section>
-          <div className="score">
-            <p>
+        <section className="font-poppins flex flex-row bg-green-900 text-amber-50 pt-2">
+          <div className="score basis-1/3">
+            <p className="basis-1/3">
               <FontAwesomeIcon icon={['fas', 'star']} />
               Score: {score}
             </p>
@@ -402,20 +385,26 @@ export default function SnakeGame() {
             </p>
           </div>
           {!isLost && countDown > 0 ? (
-            <button onClick={startGame}>
+            <button
+              onClick={startGame}
+              className="basis-1/3 bg-amber-600 shadow-md shadow-amber-500/0 hover:shadow-lg hover:shadow-amber-500/30 transition duration-300"
+            >
               {countDown === 4 ? 'Start Game' : countDown}
             </button>
           ) : (
-            <div className="controls">
-              <p>How to Play?</p>
-              <p>
-                <FontAwesomeIcon icon={['fas', 'arrow-up']} />
-                <FontAwesomeIcon icon={['fas', 'arrow-right']} />
-                <FontAwesomeIcon icon={['fas', 'arrow-down']} />
-                <FontAwesomeIcon icon={['fas', 'arrow-left']} />
-              </p>
-            </div>
+            <p className="text-5xl text-amber-500 basis-1/3 text-center">
+              {score}
+            </p>
           )}
+          <div className="controls basis-1/3">
+            <p>How to Play?</p>
+            <p>
+              <FontAwesomeIcon icon={['fas', 'arrow-up']} />
+              <FontAwesomeIcon icon={['fas', 'arrow-right']} />
+              <FontAwesomeIcon icon={['fas', 'arrow-down']} />
+              <FontAwesomeIcon icon={['fas', 'arrow-left']} />
+            </p>
+          </div>
         </section>
         {isLost && (
           <div className="game-overlay">
@@ -424,15 +413,18 @@ export default function SnakeGame() {
               {newHighscore ? `🎉 New Highscore 🎉` : `You scored: ${score}`}
             </p>
             {!running && isLost && (
-              <button onClick={startGame}>
+              <button
+                onClick={startGame}
+                className="bg-amber-600 shadow-lg shadow-amber-600/0 hover:shadow-amber-600/30 transition duration-300"
+              >
                 {countDown === 4 ? 'Restart Game' : countDown}
               </button>
             )}
           </div>
         )}
       </main>
-      <h1 className="text-m text-rose-500 text-center pt-4 font-poppins">
-        <Link href="/almost">❔..what&apos;s hiding here..❓</Link>
+      <h1 className="text-sm text-rose-400 hover:text-rose-300 pt-10 transition duration-200 motion-safe:animate-bounce text-center pt-4 font-poppins">
+        <Link href="/almost">⁉️ what&apos;s hiding here? ⁉️</Link>
       </h1>
       <footer>
         Copyright &copy; <a href="https://mueller.dev">Marc Müller</a> 2022
