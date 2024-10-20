@@ -1,10 +1,15 @@
-import { useState, useEffect, useRef } from 'react'
+import { useState, useEffect, useRef, useCallback } from 'react'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import useInterval from '@use-it/interval'
 
 import { HeadComponent as Head } from 'components/Head'
 
 type Apple = {
+  x: number
+  y: number
+}
+
+type SnakePart = {
   x: number
   y: number
 }
@@ -36,7 +41,7 @@ export default function SnakeGame() {
   const [score, setScore] = useState(0)
   const [snake, setSnake] = useState<{
     head: { x: number; y: number }
-    trail: Array<any>
+    trail: SnakePart[]
   }>({
     head: { x: 12, y: 9 },
     trail: [],
@@ -93,16 +98,6 @@ export default function SnakeGame() {
     setCountDown(4)
   }
 
-  // const fillRect = (
-  //   ctx: CanvasRenderingContext2D,
-  //   x: number,
-  //   y: number,
-  //   w: number,
-  //   h: number
-  // ) => {
-  //   ctx.fillRect(x, y, w, h)
-  // }
-
   const fillText = (
     ctx: CanvasRenderingContext2D,
     text: string,
@@ -113,106 +108,48 @@ export default function SnakeGame() {
     ctx.fillText(text, x, y, w)
   }
 
-  // const strokeRect = (
-  //   ctx: CanvasRenderingContext2D,
-  //   x: number,
-  //   y: number,
-  //   w: number,
-  //   h: number
-  // ) => {
-  //   ctx.lineWidth = 10
-  //   ctx.strokeRect(x + 0.5, y + 0.5, w, h)
-  // }
-
-  const drawSnake = (ctx: CanvasRenderingContext2D) => {
-    ctx.font = '30px serif'
-    // ctx.fillStyle = '#50ea3f'
-    // ctx.strokeStyle = '#111111'
-
-    // fillRect(
-    //   ctx,
-    //   snake.head.x * canvasGridSize,
-    //   snake.head.y * canvasGridSize,
-    //   canvasGridSize,
-    //   canvasGridSize
-    // )
-
-    // strokeRect(
-    //   ctx,
-    //   snake.head.x * canvasGridSize,
-    //   snake.head.y * canvasGridSize,
-    //   canvasGridSize,
-    //   canvasGridSize
-    // )
-
-    fillText(
-      ctx,
-      '🐰',
-      snake.head.x * canvasGridSize,
-      snake.head.y * canvasGridSize + 30,
-      canvasGridSize
-    )
-
-    snake.trail.forEach((snakePart) => {
-      // fillRect(
-      //   ctx,
-      //   snakePart.x * canvasGridSize,
-      //   snakePart.y * canvasGridSize,
-      //   canvasGridSize,
-      //   canvasGridSize
-      // )
-
-      // strokeRect(
-      //   ctx,
-      //   snakePart.x * canvasGridSize,
-      //   snakePart.y * canvasGridSize,
-      //   canvasGridSize,
-      //   canvasGridSize
-      // )
+  const drawSnake = useCallback(
+    (ctx: CanvasRenderingContext2D) => {
+      ctx.font = '30px serif'
       fillText(
         ctx,
-        '🐇',
-        snakePart.x * canvasGridSize,
-        snakePart.y * canvasGridSize + 30,
+        '🐰',
+        snake.head.x * canvasGridSize,
+        snake.head.y * canvasGridSize + 30,
         canvasGridSize
       )
-    })
-  }
+      snake.trail.forEach((snakePart) => {
+        fillText(
+          ctx,
+          '🐇',
+          snakePart.x * canvasGridSize,
+          snakePart.y * canvasGridSize + 30,
+          canvasGridSize
+        )
+      })
+    },
+    [snake, canvasGridSize]
+  )
 
-  const drawApple = (ctx: CanvasRenderingContext2D) => {
-    // ctx.fillStyle = '#fc052a' // '#38C172' // '#F4CA64'
-    // ctx.strokeStyle = '#111111' // '#187741' // '#8C6D1F
-    ctx.font = '30px serif'
-
-    if (
-      apple &&
-      typeof apple.x !== 'undefined' &&
-      typeof apple.y !== 'undefined'
-    ) {
-      // fillRect(
-      //   ctx,
-      //   apple.x * canvasGridSize,
-      //   apple.y * canvasGridSize,
-      //   canvasGridSize,
-      //   canvasGridSize
-      // )
-
-      // strokeRect(
-      //   ctx,
-      //   apple.x * canvasGridSize,
-      //   apple.y * canvasGridSize,
-      //   canvasGridSize,
-      //   canvasGridSize
-      // )
-      fillText(
-        ctx,
-        '🥕',
-        apple.x * canvasGridSize,
-        apple.y * canvasGridSize + 30,
-        canvasGridSize
-      )
-    }
-  }
+  const drawApple = useCallback(
+    (ctx: CanvasRenderingContext2D) => {
+      ctx.font = '30px serif'
+      if (
+        apple &&
+        typeof apple.x !== 'undefined' &&
+        typeof apple.y !== 'undefined'
+      ) {
+        fillText(
+          ctx,
+          '🥕',
+          apple.x * canvasGridSize,
+          apple.y * canvasGridSize + 30,
+          canvasGridSize
+        )
+      }
+    },
+    [apple, canvasGridSize]
+  )
 
   // Update snake.head, snake.trail and apple positions. Check for collisions.
   const updateSnake = () => {
@@ -295,7 +232,7 @@ export default function SnakeGame() {
       drawApple(ctx)
       drawSnake(ctx)
     }
-  }, [snake])
+  }, [isLost, drawApple, drawSnake])
 
   // Game Update Interval
   useInterval(

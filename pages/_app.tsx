@@ -6,7 +6,8 @@ import 'styles/main.scss'
 import '@fortawesome/fontawesome-svg-core/styles.css'
 
 // Import FontAwesome Icons
-import { config, library } from '@fortawesome/fontawesome-svg-core'
+const { config, library } = require('@fortawesome/fontawesome-svg-core')
+
 import {
   faStar,
   faArrowUp,

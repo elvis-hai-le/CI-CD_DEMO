@@ -14,7 +14,8 @@
     "no-unused-vars": "off",
     "prettier/prettier": "error",
     "import/no-anonymous-default-export": "off",
-    "react/display-name": "off"
+    "react/display-name": "off",
+    "@typescript-eslint/no-require-imports": "off"
   },
   "env": {
     "jest": true
