@@ -29,6 +29,15 @@ library.add(
 )
 config.autoAddCss = false
 
+// export default function MyApp({ Component, pageProps }: AppProps) {
+//   return <Component {...pageProps} />
+// }
+
+import React, { useEffect } from 'react'
+
 export default function MyApp({ Component, pageProps }: AppProps) {
+  useEffect(() => {
+    document.body.className = pageProps.isDark ? 'bg-zinc-950' : 'bg-slate-200'
+  })
   return <Component {...pageProps} />
 }

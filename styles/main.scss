@@ -1,3 +1,7 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
 html,
 body {
   padding: 0;
@@ -150,4 +154,8 @@ footer {
     font-weight: 500;
     text-decoration: none;
   }
+}
+
+#hi_page {
+  text-decoration: none;
 }

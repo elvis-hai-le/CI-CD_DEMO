@@ -3,6 +3,7 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import useInterval from '@use-it/interval'
 
 import { HeadComponent as Head } from 'components/Head'
+import Link from 'next/link'
 
 type Apple = {
   x: number
@@ -17,6 +18,10 @@ type SnakePart = {
 type Velocity = {
   dx: number
   dy: number
+}
+
+export async function getStaticProps() {
+  return { props: { isDark: true } }
 }
 
 export default function SnakeGame() {
@@ -374,8 +379,8 @@ export default function SnakeGame() {
   return (
     <>
       <Head />
-      <h1 className="title">NextJS Snake Demo Deploy</h1>
-      <h1 className="title" id="subtitle">
+      <h1 className="title font-poppins">NextJS Snake Demo Deploy</h1>
+      <h1 className="title font-poppins" id="subtitle">
         CREDITS TO MARC MULLER
       </h1>
       <br />
@@ -426,6 +431,9 @@ export default function SnakeGame() {
           </div>
         )}
       </main>
+      <h1 className="text-m text-rose-500 text-center pt-4 font-poppins">
+        <Link href="/almost">❔..what&apos;s hiding here..❓</Link>
+      </h1>
       <footer>
         Copyright &copy; <a href="https://mueller.dev">Marc Müller</a> 2022
         &nbsp;|&nbsp;{' '}
