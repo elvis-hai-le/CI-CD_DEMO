@@ -5,7 +5,7 @@ export NVM_DIR="$HOME/.nvm"
 # Set variables
 reponame=CI-CD_DEMO
 repodir=/home/ubuntu/${reponame}
-webdir=/home/ubuntu/dist
+webdir=/home/ubuntu/${reponame}/dist
 codedeployname=Snake
 environment=production
 s3bucket=cicd-codeploy-bucket
@@ -15,6 +15,7 @@ git pull origin main
 
 #check for build folder and delete if exists
 [ -d $webdir ] && rm -frv ${webdir}/*
+mkdir ${webdir}/
 aws s3 sync s3://${s3bucket}/${codedeployname}/${environment}/ ${webdir}/ --delete
 
 bun install --frozen-lockfile --production &&
