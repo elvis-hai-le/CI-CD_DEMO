@@ -1,5 +1,5 @@
 import Link from 'next/link'
-import { NextResponse } from 'next/server';
+import { NextResponse } from 'next/server'
 
 export async function getStaticProps() {
   return { props: { isDark: false } }
@@ -24,6 +24,6 @@ export async function GET() {
   const fruits = [
     { id: 1, name: '🍎' },
     { id: 2, name: '🍐' },
-  ];
-  return NextResponse.json(fruits, { status: 200 });
+  ]
+  return NextResponse.json(fruits, { status: 200 })
 }
