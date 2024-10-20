@@ -35,7 +35,7 @@ export default function SnakeGame() {
   const minGameSpeed = 10
   const maxGameSpeed = 30
   const wallKills = false
-
+  
   // Game State
   const [gameDelay, setGameDelay] = useState<number>(1000 / minGameSpeed)
   const [countDown, setCountDown] = useState<number>(4)
@@ -72,6 +72,15 @@ export default function SnakeGame() {
       return generateApplePosition()
     }
     return { x, y }
+  }
+
+  const [penguin, setPenguin] = useState(false);
+  const swapTheme = () => {
+    setPenguin(penguin => !penguin)
+  }
+  const swapClick = () => {
+    swapTheme();
+    // redraw(isLost, drawApple, drawSnake, drawTree);
   }
 
   // Initialise state and start countdown
@@ -116,12 +125,14 @@ export default function SnakeGame() {
   const drawTree = useCallback(
     (ctx: CanvasRenderingContext2D) => {
       ctx.font = '40px serif'
-      ctx.fillStyle = 'rgba(255, 255, 255, 0.15)'
+      ctx.fillStyle = 'rgba(255, 255, 255, 0.2)'
+      let bg = ''
+       if (penguin) {bg='🌨️'} else {bg='🌲'}
       for (let x = 0; x < 18; x++) {
         for (let y = 0; y < 12; y++) {
           fillText(
             ctx,
-            '🌲',
+            bg,
             x * canvasGridSize - 5,
             y * canvasGridSize + 30,
             70
@@ -135,9 +146,13 @@ export default function SnakeGame() {
   const drawSnake = useCallback(
     (ctx: CanvasRenderingContext2D) => {
       ctx.font = '30px serif'
+      let head = ''
+      let tail = ''
+      if (penguin) {head='🐧'} else {head='🐰'}
+      if (penguin) {tail='🧊'} else {tail='🐇'}
       fillText(
         ctx,
-        '🐰',
+        head,
         snake.head.x * canvasGridSize,
         snake.head.y * canvasGridSize + 30,
         canvasGridSize
@@ -145,7 +160,7 @@ export default function SnakeGame() {
       snake.trail.forEach((snakePart) => {
         fillText(
           ctx,
-          '🐇',
+          tail,
           snakePart.x * canvasGridSize,
           snakePart.y * canvasGridSize + 30,
           canvasGridSize
@@ -160,6 +175,8 @@ export default function SnakeGame() {
       ctx.textAlign = 'left'
       ctx.font = '30px serif'
       ctx.fillStyle = 'rgba(255, 255, 255, 1)'
+      let item = ''
+      if (penguin) {item='❄️'} else {item='🥕'}
       if (
         apple &&
         typeof apple.x !== 'undefined' &&
@@ -167,7 +184,7 @@ export default function SnakeGame() {
       ) {
         fillText(
           ctx,
-          '🥕',
+          item,
           apple.x * canvasGridSize,
           apple.y * canvasGridSize + 30,
           canvasGridSize
@@ -260,6 +277,39 @@ export default function SnakeGame() {
       drawSnake(ctx)
     }
   }, [isLost, drawApple, drawSnake, drawTree])
+
+  // const redraw = ({ isLost, drawApple, drawSnake, drawTree }) => {
+  //   const canvasRef = useRef<HTMLCanvasElement | null>(null);
+  
+  //   const clearCanvas = (ctx) => {
+  //     ctx.clearRect(0, 0, ctx.canvas.width, ctx.canvas.height);
+  //   };
+  
+  //   const redraw = (ctx) => {
+  //     if (ctx && !isLost) {
+  //       clearCanvas(ctx);
+  //       drawTree(ctx);
+  //       drawApple(ctx);
+  //       drawSnake(ctx);
+  //     }
+  //   };
+  
+  //   const updateCanvas = () => {
+  //     const canvas = canvasRef.current;
+  //     const ctx = canvas?.getContext('2d');
+  //     redraw(ctx); // Call the redraw function with the context
+  //   };
+  
+  //   useEffect(() => {
+  //     updateCanvas(); // Call the function inside useEffect
+  //   }, [isLost, drawApple, drawSnake, drawTree]);
+  
+  //   return (
+  //     <canvas ref={canvasRef}></canvas>
+  //   );
+  // };
+
+  
 
   // Game Update Interval
   useInterval(
@@ -372,8 +422,9 @@ export default function SnakeGame() {
           ref={canvasRef}
           width={canvasWidth + 1}
           height={canvasHeight + 1}
+          className={`${penguin ? 'bg-cyan-100' : 'bg-emerald-950'}`}
         />
-        <section className="font-poppins flex flex-row bg-green-900 text-amber-50 pt-2">
+        <section className={`font-poppins flex flex-row ${penguin ? 'bg-cyan-600' : 'bg-green-900'} text-amber-50 pt-1`}>
           <div className="score basis-1/3">
             <p className="basis-1/3">
               <FontAwesomeIcon icon={['fas', 'star']} />
@@ -387,12 +438,12 @@ export default function SnakeGame() {
           {!isLost && countDown > 0 ? (
             <button
               onClick={startGame}
-              className="basis-1/3 bg-amber-600 shadow-md shadow-amber-500/0 hover:shadow-lg hover:shadow-amber-500/30 transition duration-300"
+              className={`basis-1/3 shadow-md hover:shadow-lg ${penguin ? 'bg-rose-400' : 'bg-amber-600'} ${penguin ? 'hover:shadow-rose-600/60' : 'hover:shadow-amber-600/60'}  transition duration-300`}
             >
               {countDown === 4 ? 'Start Game' : countDown}
             </button>
           ) : (
-            <p className="text-5xl text-amber-500 basis-1/3 text-center">
+            <p className={`${penguin ? 'text-rose-300' : 'text-amber-500'} text-5xl basis-1/3 text-center`}>
               {score}
             </p>
           )}
@@ -415,7 +466,7 @@ export default function SnakeGame() {
             {!running && isLost && (
               <button
                 onClick={startGame}
-                className="bg-amber-600 shadow-lg shadow-amber-600/0 hover:shadow-amber-600/30 transition duration-300"
+                className={`${penguin ? 'bg-rose-400' : 'bg-amber-600'} shadow-lg ${penguin ? 'hover:shadow-rose-600/30' : 'hover:shadow-amber-600/30'}  transition duration-300`}
               >
                 {countDown === 4 ? 'Restart Game' : countDown}
               </button>
@@ -423,6 +474,9 @@ export default function SnakeGame() {
           </div>
         )}
       </main>
+      <div className='flex place-content-center'>
+      <button onClick={swapClick} className='text-5xl'>{penguin ? '🐰' : '🐧'}</button>
+      </div>
       <h1 className="text-sm text-rose-400 hover:text-rose-300 pt-10 transition duration-200 motion-safe:animate-bounce text-center pt-4 font-poppins">
         <Link href="/almost">⁉️ what&apos;s hiding here? ⁉️</Link>
       </h1>
