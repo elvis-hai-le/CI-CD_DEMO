@@ -17,5 +17,5 @@ git pull origin main
 [ -d $webdir ] && rm -frv ${webdir}/*
 aws s3 sync s3://${s3bucket}/${codedeployname}/${environment}/ ${webdir}/ --delete
 
-bun run install --frozen-lockfile --production &&
+bun install --frozen-lockfile --production &&
 pm2 restart snake
