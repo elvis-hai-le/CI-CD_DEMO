@@ -7,7 +7,7 @@ reponame=CI-CD_DEMO
 repodir=/home/ubuntu/${reponame}
 webdir=/home/ubuntu/dist
 codedeployname=Snake
-environment=$(cat /etc/nodejs_environment.dat)
+environment=production
 s3bucket=cicd-codeploy-bucket
 
 cd /home/ubuntu/CI-CD_DEMO/
