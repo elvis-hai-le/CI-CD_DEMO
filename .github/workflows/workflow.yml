@@ -47,7 +47,7 @@ jobs:
       - name: Pass build files to next job for deployment
         uses: actions/upload-artifact@v4
         with:
-          name: deploy-dist
+          name: dist
           path: dist
       
   deploy-staging:
