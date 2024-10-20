@@ -26,6 +26,7 @@
     "@fortawesome/react-fontawesome": "^0.2.2",
     "@typescript-eslint/parser": "8.10.0",
     "@use-it/interval": "^1.0.0",
+    "buffer-from": "^1.1.2",
     "next": "^14.2.15",
     "react": "^18.3.1",
     "react-dom": "^18.3.1",
