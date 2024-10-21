@@ -20,6 +20,11 @@ type Velocity = {
   dy: number
 }
 
+type RandomXY = {
+  x: number
+  y: number
+}
+
 export async function getStaticProps() {
   return { props: { isDark: true } }
 }
@@ -37,6 +42,10 @@ export default function SnakeGame() {
   const wallKills = false
 
   // Game State
+  const [randomXY] = useState<RandomXY>({
+    x: Math.floor(Math.random() * (canvasWidth / canvasGridSize)),
+    y: Math.floor(Math.random() * (canvasHeight / canvasGridSize)),
+  })
   const [gameDelay, setGameDelay] = useState<number>(1000 / minGameSpeed)
   const [countDown, setCountDown] = useState<number>(4)
   const [running, setRunning] = useState(false)
@@ -48,9 +57,10 @@ export default function SnakeGame() {
     head: { x: number; y: number }
     trail: SnakePart[]
   }>({
-    head: { x: 12, y: 9 },
+    head: { x: randomXY.x, y: randomXY.y },
     trail: [],
   })
+
   const [apple, setApple] = useState<Apple>({ x: -1, y: -1 })
   const [velocity, setVelocity] = useState<Velocity>({ dx: 0, dy: 0 })
   const [previousVelocity, setPreviousVelocity] = useState<Velocity>({
@@ -58,8 +68,9 @@ export default function SnakeGame() {
     dy: 0,
   })
 
-  const clearCanvas = (ctx: CanvasRenderingContext2D) =>
+  const clearCanvas = (ctx: CanvasRenderingContext2D) => {
     ctx.clearRect(-1, -1, canvasWidth + 2, canvasHeight + 2)
+  }
 
   const generateApplePosition = (): Apple => {
     const x = Math.floor(Math.random() * (canvasWidth / canvasGridSize))
@@ -74,13 +85,20 @@ export default function SnakeGame() {
     return { x, y }
   }
 
+  const refreshSnake = () => {
+    setSnake({
+      head: { x: randomXY.x, y: randomXY.y },
+      trail: [],
+    })
+  }
+
   const [penguin, setPenguin] = useState(false)
   const swapTheme = () => {
     setPenguin((penguin) => !penguin)
   }
   const swapClick = () => {
     swapTheme()
-    // redraw(isLost, drawApple, drawSnake, drawTree);
+    // setApple(refreshApple)
   }
 
   // Initialise state and start countdown
@@ -88,11 +106,9 @@ export default function SnakeGame() {
     setGameDelay(1000 / minGameSpeed)
     setIsLost(false)
     setScore(0)
-    setSnake({
-      head: { x: 12, y: 9 },
-      trail: [],
-    })
+    refreshSnake()
     setApple(generateApplePosition())
+
     setVelocity({ dx: 0, dy: -1 })
     setRunning(true)
     setNewHighscore(false)
@@ -121,24 +137,32 @@ export default function SnakeGame() {
   ) => {
     ctx.fillText(text, x, y, w)
   }
-
-  const drawTree = useCallback(
+  const drawApple = useCallback(
     (ctx: CanvasRenderingContext2D) => {
-      ctx.font = '40px serif'
-      ctx.fillStyle = 'rgba(255, 255, 255, 0.2)'
-      let bg = ''
+      ctx.textAlign = 'left'
+      ctx.font = '30px serif'
+      ctx.fillStyle = 'rgba(255, 255, 255, 1)'
+      let item = ''
       if (penguin) {
-        bg = '🌨️'
+        item = '❄️'
       } else {
-        bg = '🌲'
+        item = '🥕'
       }
-      for (let x = 0; x < 18; x++) {
-        for (let y = 0; y < 12; y++) {
-          fillText(ctx, bg, x * canvasGridSize - 5, y * canvasGridSize + 30, 70)
-        }
+      if (
+        apple &&
+        typeof apple.x !== 'undefined' &&
+        typeof apple.y !== 'undefined'
+      ) {
+        fillText(
+          ctx,
+          item,
+          apple.x * canvasGridSize,
+          apple.y * canvasGridSize + 30,
+          canvasGridSize
+        )
       }
     },
-    [canvasGridSize]
+    [apple, penguin, canvasGridSize]
   )
 
   const drawSnake = useCallback(
@@ -173,35 +197,26 @@ export default function SnakeGame() {
         )
       })
     },
-    [snake, canvasGridSize]
+    [snake, penguin, canvasGridSize]
   )
 
-  const drawApple = useCallback(
+  const drawBg = useCallback(
     (ctx: CanvasRenderingContext2D) => {
-      ctx.textAlign = 'left'
-      ctx.font = '30px serif'
-      ctx.fillStyle = 'rgba(255, 255, 255, 1)'
-      let item = ''
+      ctx.font = '40px serif'
+      ctx.fillStyle = 'rgba(255, 255, 255, 0.2)'
+      let bg = ''
       if (penguin) {
-        item = '❄️'
+        bg = '🌨️'
       } else {
-        item = '🥕'
+        bg = '🌲'
       }
-      if (
-        apple &&
-        typeof apple.x !== 'undefined' &&
-        typeof apple.y !== 'undefined'
-      ) {
-        fillText(
-          ctx,
-          item,
-          apple.x * canvasGridSize,
-          apple.y * canvasGridSize + 30,
-          canvasGridSize
-        )
+      for (let x = 0; x < 18; x++) {
+        for (let y = 0; y < 12; y++) {
+          fillText(ctx, bg, x * canvasGridSize - 5, y * canvasGridSize + 30, 70)
+        }
       }
     },
-    [apple, canvasGridSize]
+    [canvasGridSize, penguin]
   )
 
   // Update snake.head, snake.trail and apple positions. Check for collisions.
@@ -279,45 +294,14 @@ export default function SnakeGame() {
   useEffect(() => {
     const canvas = canvasRef?.current
     const ctx = canvas?.getContext('2d')
-
-    if (ctx && !isLost) {
+    // && !isLost
+    if (ctx) {
       clearCanvas(ctx)
-      drawTree(ctx)
+      drawBg(ctx)
       drawApple(ctx)
       drawSnake(ctx)
     }
-  }, [isLost, drawApple, drawSnake, drawTree])
-
-  // const redraw = ({ isLost, drawApple, drawSnake, drawTree }) => {
-  //   const canvasRef = useRef<HTMLCanvasElement | null>(null);
-
-  //   const clearCanvas = (ctx) => {
-  //     ctx.clearRect(0, 0, ctx.canvas.width, ctx.canvas.height);
-  //   };
-
-  //   const redraw = (ctx) => {
-  //     if (ctx && !isLost) {
-  //       clearCanvas(ctx);
-  //       drawTree(ctx);
-  //       drawApple(ctx);
-  //       drawSnake(ctx);
-  //     }
-  //   };
-
-  //   const updateCanvas = () => {
-  //     const canvas = canvasRef.current;
-  //     const ctx = canvas?.getContext('2d');
-  //     redraw(ctx); // Call the redraw function with the context
-  //   };
-
-  //   useEffect(() => {
-  //     updateCanvas(); // Call the function inside useEffect
-  //   }, [isLost, drawApple, drawSnake, drawTree]);
-
-  //   return (
-  //     <canvas ref={canvasRef}></canvas>
-  //   );
-  // };
+  }, [isLost, drawApple, drawSnake, drawBg])
 
   // Game Update Interval
   useInterval(
