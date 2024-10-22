@@ -25,7 +25,7 @@ type RandomXY = {
   y: number
 }
 
-let DarkBool = false
+const DarkBool = false
 
 export async function getStaticProps() {
   return { props: { isDark: DarkBool } }
@@ -94,7 +94,7 @@ export default function SnakeGame() {
     })
   }
 
-  let [penguin, setPenguin] = useState(false)
+  let [penguin] = useState(false)
   // const swapTheme = () => {
   //   setPenguin((penguin) => !penguin)
   // }
