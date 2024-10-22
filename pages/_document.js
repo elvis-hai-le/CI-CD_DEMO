@@ -1,24 +1,4 @@
 import Document, { Html, Head, Main, NextScript } from 'next/document'
-// export default function Document() {
-//   return (
-//     <Html>
-//       <Head>
-//         <link
-//           href="https://fonts.googleapis.com/css2?family=Agdasima:wght@700&display=swap"
-//           rel="stylesheet"
-//         />
-//         <link
-//           href="https://fonts.googleapis.com/css2?family=Poppins:wght@500&display=swap"
-//           rel="stylesheet"
-//         />
-//       </Head>
-//       <body>
-//         <Main />
-//         <NextScript />
-//       </body>
-//     </Html>
-//   )
-// }
 
 export default class MyDocument extends Document {
   render() {
@@ -34,7 +14,7 @@ export default class MyDocument extends Document {
           rel="stylesheet"
         />
         <Head />
-        <body className={pageProps.isDark ? 'bg-zinc-950' : 'bg-slate-200'}>
+        <body className={pageProps.isDark ? 'bg-gray-950' : 'bg-emerald-50'}>
           <Main />
           <NextScript />
         </body>

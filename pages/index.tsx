@@ -25,8 +25,10 @@ type RandomXY = {
   y: number
 }
 
+let DarkBool = false
+
 export async function getStaticProps() {
-  return { props: { isDark: true } }
+  return { props: { isDark: DarkBool } }
 }
 
 export default function SnakeGame() {
@@ -39,7 +41,7 @@ export default function SnakeGame() {
   // Game Settings
   const minGameSpeed = 10
   const maxGameSpeed = 30
-  const wallKills = false
+  const wallKills = DarkBool
 
   // Game State
   const [randomXY] = useState<RandomXY>({
@@ -92,13 +94,19 @@ export default function SnakeGame() {
     })
   }
 
-  const [penguin, setPenguin] = useState(false)
-  const swapTheme = () => {
-    setPenguin((penguin) => !penguin)
-  }
-  const swapClick = () => {
-    swapTheme()
-    // setApple(refreshApple)
+  let [penguin, setPenguin] = useState(false)
+  // const swapTheme = () => {
+  //   setPenguin((penguin) => !penguin)
+  // }
+  // const swapClick = () => {
+  //   swapTheme()
+  //   // setApple(refreshApple)
+  // }
+
+  if (DarkBool) {
+    penguin = true
+  } else {
+    penguin = false
   }
 
   // Initialise state and start countdown
@@ -402,8 +410,14 @@ export default function SnakeGame() {
   return (
     <>
       <Head />
-      <h1 className="title font-poppins">NextJS Snake Demo Deploy</h1>
-      <h1 className="font-poppins text-center text-base text-sky-300">
+      <h1
+        className={`text-5xl text-center pb-2 font-poppins ${penguin ? 'text-zinc-200' : 'text-green-900'}`}
+      >
+        NextJS Snake Demo Deploy
+      </h1>
+      <h1
+        className={`font-poppins text-center text-base ${penguin ? 'text-sky-300' : 'text-emerald-400'}`}
+      >
         <a href="https://github.com/marcmll/next-snake">
           👉 CREDITS TO MARC MULLER FOR ORIGINAL GAME 👈
         </a>
@@ -432,13 +446,13 @@ export default function SnakeGame() {
           {!isLost && countDown > 0 ? (
             <button
               onClick={startGame}
-              className={`basis-1/3 shadow-md hover:shadow-lg ${penguin ? 'bg-rose-400' : 'bg-amber-600'} ${penguin ? 'hover:shadow-rose-600/60' : 'hover:shadow-amber-600/60'}  transition duration-300`}
+              className={`basis-1/3 shadow-md hover:shadow-lg ${penguin ? 'bg-rose-400' : 'bg-amber-500'} ${penguin ? 'hover:shadow-rose-600/60' : 'hover:shadow-amber-600/60'}  transition duration-300`}
             >
               {countDown === 4 ? 'Start Game' : countDown}
             </button>
           ) : (
             <p
-              className={`${penguin ? 'text-rose-300' : 'text-amber-500'} text-5xl basis-1/3 text-center`}
+              className={`${penguin ? 'text-rose-300' : 'text-amber-400'} text-5xl basis-1/3 text-center`}
             >
               {score}
             </p>
@@ -462,7 +476,7 @@ export default function SnakeGame() {
             {!running && isLost && (
               <button
                 onClick={startGame}
-                className={`${penguin ? 'bg-rose-400' : 'bg-amber-600'} shadow-lg ${penguin ? 'hover:shadow-rose-600/30' : 'hover:shadow-amber-600/30'}  transition duration-300`}
+                className={`${penguin ? 'bg-rose-400' : 'bg-amber-500'} shadow-lg ${penguin ? 'hover:shadow-rose-600/30' : 'hover:shadow-amber-600/30'}  transition duration-300`}
               >
                 {countDown === 4 ? 'Restart Game' : countDown}
               </button>
@@ -471,9 +485,9 @@ export default function SnakeGame() {
         )}
       </main>
       <div className="flex place-content-center">
-        <button onClick={swapClick} className="text-5xl">
+        {/* <button onClick={swapClick} className="text-5xl">
           {penguin ? '🐰' : '🐧'}
-        </button>
+        </button> */}
       </div>
       <h1 className="text-sm text-rose-400 hover:text-rose-300 pt-10 transition duration-200 motion-safe:animate-bounce text-center pt-4 font-poppins">
         <Link href="/almost">⁉️ what&apos;s hiding here? ⁉️</Link>

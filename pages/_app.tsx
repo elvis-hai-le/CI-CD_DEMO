@@ -37,7 +37,7 @@ import React, { useEffect } from 'react'
 
 export default function MyApp({ Component, pageProps }: AppProps) {
   useEffect(() => {
-    document.body.className = pageProps.isDark ? 'bg-zinc-950' : 'bg-slate-200'
+    document.body.className = pageProps.isDark ? 'bg-gray-950' : 'bg-emerald-50'
   })
   return <Component {...pageProps} />
 }
