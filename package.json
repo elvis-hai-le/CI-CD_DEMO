@@ -8,6 +8,7 @@
     "build": "bun run next build",
     "start": "bun run next start",
     "pretty": "bun run prettier -w .",
+    "go": "bun pretty && bun run build && bun start",
     "test": "jest"
   },
   "repository": {
