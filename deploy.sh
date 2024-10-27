@@ -1,7 +1,7 @@
-# #!/bin/bash
-# export NVM_DIR="$HOME/.nvm"
-# [ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"
+#!/bin/bash
 export PATH="$HOME/.bun/bin:$PATH"
+export NVM_DIR="$HOME/.nvm"
+[ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"
 
 # Set variables
 reponame=CI-CD_DEMO
