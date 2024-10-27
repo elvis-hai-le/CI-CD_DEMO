@@ -1,12 +1,12 @@
 # #!/bin/bash
-# export NVM_DIR="$HOME/.nvm"
-# [ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"
+export NVM_DIR="$HOME/.nvm"
+[ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"
 
 # Set variables
 reponame=CI-CD_DEMO
 repodir=/home/ubuntu/${reponame}
 webdir=/home/ubuntu/${reponame}/dist
-codedeployname=demo
+codedeployname=Snake
 environment=production
 s3bucket=cicd-codeploy-bucket
 

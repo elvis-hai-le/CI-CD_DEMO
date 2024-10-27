@@ -51,11 +51,19 @@ jobs:
         run: aws s3 sync ./ s3://${{ env.s3bucket }}/${{ env.codedeployname }}/${{ env.environment }}/ --delete
 
       - name: CodeDeploy Staging Deployment
-        id: deploy
+        id: stage
         run: |
           aws deploy create-deployment \
-            --application-name demo \
-            --deployment-group-name production \
+            --application-name Snake \
+            --deployment-group-name Staging \
             --deployment-config-name CodeDeployDefault.OneAtATime \
             --github-location repository=${{ github.repository }},commitId=${{ github.sha }}
 
+      - name: CodeDeploy Production Deployment
+        id: deploy
+        run: |
+          aws deploy create-deployment \
+            --application-name Snake \
+            --deployment-group-name Production \
+            --deployment-config-name CodeDeployDefault.OneAtATime \
+            --github-location repository=${{ github.repository }},commitId=${{ github.sha }}
