@@ -25,7 +25,7 @@ type RandomXY = {
   y: number
 }
 
-const DarkBool = true
+const DarkBool = false
 
 export async function getStaticProps() {
   return { props: { isDark: DarkBool } }
