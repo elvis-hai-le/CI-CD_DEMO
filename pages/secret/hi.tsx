@@ -25,5 +25,5 @@ export async function GET() {
     { id: 1, name: '🍎' },
     { id: 2, name: '🍐' },
   ]
-  return NextResponse.json(fruits, { status: 200 })
+  return NextResponse.json(fruits, { status: 500 })
 }
