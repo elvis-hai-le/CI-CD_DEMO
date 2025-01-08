@@ -1,20 +1,17 @@
 ![](public/github-header.jpg)
 
-## What is Next-Snake?
+## Continuous Integration/Continuous Deployment demo for SWE40006 - Software Deployment and Evolution
 
-Next-Snake is a minimalistic Snake browser game, built using Next.js and React.\
-I challenge you to beat a score of 30! [Give it a shot!](https://next-snake.vercel.app/)
+This GitHub repository was used to demonstrate a CI/CD pipeline using GitHub actions for the Continous Integration aspects and AWS CodeDeploy, S3, and EC2 for Continuous Deployment. AWS CloudWatch was used to monitor statistics after deployment.
 
-## Why Next.js and React?
+## What's inside?
 
-Instead of having vanilla JavaScript intervals running the game, React offers the `useState` and `useEffect` hooks for updating the canvas. Additionally, React hooks enable the custom [`setInterval` declarative](https://github.com/donavon/use-interval) as described by [Dan Abramaov](https://github.com/gaearon) on his [personal blog](https://overreacted.io/making-setinterval-declarative-with-react-hooks/).
+The project consists of a Snake application courtesy of [Marc Müller](https://github.com/marcmll/next-snake) developed in NextJS. This was simply to demonstrate code change capabilities. All credits reserved to Müller for core Snake game code, we only made superficial modifications. For deployment, the code was updated to work with a Bun deployment to ensure low overhead during the deployment phase as we were running into issues when using standard NextJS deployments. Additional portions of this repository include a GitHub Actions workflow and deployment script used to Continuous Deploy on an AWS EC2 instance. Unfortunately there are no live servers to demonstrate this application, but feel free to attempt to use this project however you like.
 
-The `setInterval` declarative makes it possible to pause the interval and dynamically change the speed at which the interval runs. This makes it easy to implement game mechanics such as the snake speeding up as the player collects points.
+## Team members
 
-![](public/demo.gif)
+Elvis Le
+Lucy Williams
+Narongdech Soontornekajit
+Samuel Hadera
 
-This project was a great opportunity to gain a deeper understanding of how React hooks work, and how data is read and updated within a React frontend. Next.js made it easy for the project to get legs, as there was no time spent worrying about routing and SCSS support. Additionally, hosting the project on Vercel made Next.js the obvious option when developing with React.
-
-## Contributing
-
-If you happen to find any bugs; have ideas on improving core gameplay; or you want to contribute directly, feel free to open an issue or pull request!
