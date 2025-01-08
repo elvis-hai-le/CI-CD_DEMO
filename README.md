@@ -6,12 +6,19 @@ This GitHub repository was used to demonstrate a CI/CD pipeline using GitHub act
 
 ## What's inside?
 
-The project consists of a Snake application courtesy of [Marc Müller](https://github.com/marcmll/next-snake) developed in NextJS. This was simply to demonstrate code change capabilities. All credits reserved to Müller for core Snake game code, we only made superficial modifications. For deployment, the code was updated to work with a Bun deployment to ensure low overhead during the deployment phase as we were running into issues when using standard NextJS deployments. Additional portions of this repository include a GitHub Actions workflow and deployment script used to Continuous Deploy on an AWS EC2 instance. Unfortunately there are no live servers to demonstrate this application, but feel free to attempt to use this project however you like.
+The project consists of a Snake application courtesy of [Marc Müller](https://github.com/marcmll/next-snake) developed in NextJS. This was simply to demonstrate code change capabilities. All credits reserved to Müller for core Snake game code, we only made superficial modifications. 
+
+For deployment, the code was updated to work with a Bun deployment to ensure low overhead during the deployment phase as we were running into issues when using standard NextJS deployments. Additional portions of this repository include a GitHub Actions workflow and deployment script used to Continuous Deploy on an AWS EC2 instance. 
+
+Unfortunately there are no live servers to demonstrate this application, but feel free to attempt to use this project however you like.
 
 ## Team members
 
 Elvis Le
+
 Lucy Williams
+
 Narongdech Soontornekajit
+
 Samuel Hadera
 
